@@ -27,26 +27,29 @@ A mobile app (iOS + Android) for a private friend group at TUHH (Technische Univ
 
 ## Commands
 
-> Update this section once the project is scaffolded, so it always matches reality.
+> Keep this section in sync with reality. Expo SDK 58.
 
 ```bash
 npm install                          # install dependencies
-npx expo start                       # start the dev server
+npx expo install <package>           # add a package (picks SDK-compatible versions; use instead of npm install <pkg>)
+npx expo start                       # start the dev server (scan QR code with Expo Go)
 npx expo run:android                 # build & run a dev build on Android (device/emulator)
 npx expo run:ios                     # build & run a dev build on iOS (macOS only)
-eas build --profile development      # cloud development build (needed for iOS on Windows)
+npx eas-cli@latest build --profile development   # cloud development build
 npx tsc --noEmit                     # type-check
-npm test                             # run tests
+npx expo lint                        # lint (not set up yet — first run installs ESLint, ask first)
+npm test                             # run tests (not set up yet)
 ```
 
 ## Project structure (planned)
 
 ```
-app/                    # screens (Expo Router)
-  (auth)/               # sign-in screens
-  (tabs)/index.tsx      # "Who's at uni" main screen
-  settings.tsx
 src/
+  app/                  # screens only (Expo Router) — every file here is a route
+    _layout.tsx         # root navigator
+    index.tsx           # "Who's at uni" main screen (currently: Hello screen)
+    (auth)/             # sign-in screens
+    settings.tsx
   lib/supabase.ts       # Supabase client (one place only)
   features/
     presence/           # status types, fetching, realtime subscription
