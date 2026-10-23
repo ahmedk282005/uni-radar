@@ -109,3 +109,5 @@ Add a line whenever we decide something important.
 - 2026-10 — Expo + TypeScript + Supabase chosen (cross-platform, beginner-friendly, EU hosting).
 - 2026-10 — Privacy model: status + building only, no coordinates on server, no history.
 - 2026-10 — Manual at-uni toggle built before geofencing (milestone 4) to prove the backend first.
+- 2026-10 — Follow Expo SDK 58's default layout: screens in `src/app/`, all other code in `src/`.
+- 2026-10 — ESLint not installed yet; `npx expo lint` installs it on first run, so decide before using it.
