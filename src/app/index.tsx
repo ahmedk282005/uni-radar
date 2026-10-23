@@ -1,10 +1,19 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
+import { MemberRow } from "@/components/MemberRow";
+import { FAKE_MEMBERS } from "@/features/presence/fake-members";
+import { sortMembers } from "@/features/presence/status-display";
+
+// Temporary preview of MemberRow; replaced by a FlatList in the next step.
 export default function Index() {
+  const now = new Date();
+  const members = sortMembers(FAKE_MEMBERS, now);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Hello, Uni Radar 👋</Text>
-      <Text style={styles.subtitle}>Milestone 1: running on my phone</Text>
+      {members.map((member) => (
+        <MemberRow key={member.id} member={member} now={now} />
+      ))}
     </View>
   );
 }
@@ -12,17 +21,6 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#ffffff",
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-  },
-  subtitle: {
-    marginTop: 8,
-    fontSize: 16,
-    color: "#666666",
   },
 });
