@@ -38,7 +38,8 @@ npx expo run:ios                     # build & run a dev build on iOS (macOS onl
 npx eas-cli@latest build --profile development   # cloud development build
 npx tsc --noEmit                     # type-check
 npx expo lint                        # lint (not set up yet — first run installs ESLint, ask first)
-npm test                             # run tests (not set up yet)
+npm test                             # run unit tests once (Jest + jest-expo; files named *.test.ts)
+npm test -- --watch                  # re-run tests on every save
 ```
 
 ## Project structure (planned)
