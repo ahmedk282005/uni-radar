@@ -144,6 +144,7 @@ A mobile app (iOS + Android) that **automatically** detects when a friend arrive
 - Exact geofence centres and radii for TUHH (and do outlying buildings matter?)
 - Should "arrived at uni" trigger a push notification to friends? (v2 — could be annoying; maybe per-friend opt-in)
 - Should someone be able to be in several groups? (Data model already allows it)
+- "At uni since 09:12" currently uses `updated_at`. If a later update (e.g. new building) refreshes `updated_at`, the "since" time jumps forward. Do we need a separate `since` / `arrived_at` column in `presence`? (Decide by milestone 4–6)
 - App name
 
 ## 14. Ideas for v2
