@@ -48,7 +48,8 @@ npm test -- --watch                  # re-run tests on every save
 src/
   app/                  # screens only (Expo Router) — every file here is a route
     _layout.tsx         # root navigator: SessionProvider + Stack.Protected (signed in vs. signed out)
-    index.tsx           # "Who's at uni" main screen (signed in only)
+    index.tsx           # "Who's at uni" main screen (signed in + in a group)
+    group-setup.tsx     # create or join a group (signed in, no group yet)
     sign-in.tsx         # sign in / create account (signed out only)
     settings.tsx
   lib/supabase.ts       # Supabase client (one place only)

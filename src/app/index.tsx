@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Button, FlatList, StyleSheet, Text, View } from "react-native";
 
 import { MemberRow } from "@/components/MemberRow";
+import { GroupBar } from "@/features/groups/GroupBar";
+import { useMyGroup } from "@/features/groups/MyGroupProvider";
 import { fetchMembers } from "@/features/presence/fetch-members";
 import { sortMembers } from "@/features/presence/status-display";
 import type { Member } from "@/features/presence/types";
@@ -11,6 +13,7 @@ const LOAD_ERROR = "Couldn't load your group. Check your connection and try agai
 export default function Index() {
   // Hooks must run in the same order on every render, so they all sit at the top,
   // before any early `return`.
+  const { group } = useMyGroup();
   const [members, setMembers] = useState<Member[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -74,7 +77,13 @@ export default function Index() {
       renderItem={({ item }) => <MemberRow member={item} now={now} />}
       ItemSeparatorComponent={Separator}
       ListEmptyComponent={EmptyList}
-      ListHeaderComponent={error !== null ? <Text style={styles.banner}>{error}</Text> : undefined}
+      ListHeaderComponent={
+        <>
+          {/* Always set here: the root layout only shows this screen to group members. */}
+          {group !== null && <GroupBar group={group} />}
+          {error !== null && <Text style={styles.banner}>{error}</Text>}
+        </>
+      }
       refreshing={isRefreshing}
       onRefresh={handleRefresh}
     />
