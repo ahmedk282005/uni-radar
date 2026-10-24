@@ -82,7 +82,7 @@ docs/SPEC.md
 ## Security rules
 
 - **Every Supabase table has row-level security (RLS) enabled.** Users read presence only of people who share a group; users write only their own row. When adding a table, add its RLS policies in the same migration.
-- Only the Supabase **anon key** goes in the app (via `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY` in `.env`). The **service role key never** goes in the app or in Git.
+- Only the Supabase **publishable key** (`sb_publishable_…`, successor of the anon key) goes in the app (via `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in `.env`; see `.env.example`). The **secret key** (`sb_secret_…`, formerly service role key) and the database password **never** go in the app or in Git.
 - `.env` is in `.gitignore`. Never commit secrets.
 
 ## Location / geofencing notes
@@ -112,3 +112,8 @@ Add a line whenever we decide something important.
 - 2026-10 — Manual at-uni toggle built before geofencing (milestone 4) to prove the backend first.
 - 2026-10 — Follow Expo SDK 58's default layout: screens in `src/app/`, all other code in `src/`.
 - 2026-10 — ESLint not installed yet; `npx expo lint` installs it on first run, so decide before using it.
+- 2026-10 — Supabase project in Central EU (Frankfurt, `eu-central-1`); app uses the publishable key, not the legacy anon key.
+- 2026-10 — Sign-in with email + password (magic links need deep links, fiddly in Expo Go).
+- 2026-10 — "Confirm email" off during development (built-in mailer's low rate limit); turn on + custom SMTP before the beta (milestone 7).
+- 2026-10 — Auth session stored via `expo-sqlite` localStorage (Expo's guide), not encrypted; revisit encrypted storage later if needed.
+- 2026-10 — Data model allows several groups per user; the app shows only the first group for now.
