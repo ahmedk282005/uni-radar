@@ -20,8 +20,12 @@ export default function Index() {
   const [error, setError] = useState<string | null>(null);
 
   async function loadMembers() {
+    // The root layout only shows this screen to group members, so this is just for TypeScript.
+    if (group === null) {
+      return;
+    }
     try {
-      const result = await fetchMembers();
+      const result = await fetchMembers(group.id);
       setMembers(result);
       setError(null);
     } catch {
