@@ -47,12 +47,13 @@ npm test -- --watch                  # re-run tests on every save
 ```
 src/
   app/                  # screens only (Expo Router) — every file here is a route
-    _layout.tsx         # root navigator
-    index.tsx           # "Who's at uni" main screen (currently: Hello screen)
-    (auth)/             # sign-in screens
+    _layout.tsx         # root navigator: SessionProvider + Stack.Protected (signed in vs. signed out)
+    index.tsx           # "Who's at uni" main screen (signed in only)
+    sign-in.tsx         # sign in / create account (signed out only)
     settings.tsx
   lib/supabase.ts       # Supabase client (one place only)
   features/
+    auth/               # sign-up/in/out, session context, input validation
     presence/           # status types, fetching, realtime subscription
     geofence/           # geofence setup, background task, building matching
     groups/             # create/join group, invite codes
