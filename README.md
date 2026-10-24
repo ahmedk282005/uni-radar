@@ -16,6 +16,15 @@ which building they're near.
 > 🚧 **Work in progress** — milestones 1–3 of 7 are done (accounts, groups, live data
 > model with row-level security). Automatic campus detection is next. See the [roadmap](#roadmap).
 
+<p align="center">
+  <img src="docs/screenshots/sign-in.jpg" width="250" alt="Sign-in screen">
+  &nbsp;
+  <img src="docs/screenshots/group-setup.jpg" width="250" alt="Join or create a private group">
+  &nbsp;
+  <img src="docs/screenshots/whos-at-uni.png" width="250" alt="Who's at uni: friends on campus first, with approximate building">
+</p>
+<p align="center"><sub>Sign in · Join or create a private group · Who's at uni (invite code hidden)</sub></p>
+
 ---
 
 ## Why
