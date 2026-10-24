@@ -119,3 +119,6 @@ Add a line whenever we decide something important.
 - 2026-10 — "Confirm email" off during development (built-in mailer's low rate limit); turn on + custom SMTP before the beta (milestone 7).
 - 2026-10 — Auth session stored via `expo-sqlite` localStorage (Expo's guide), not encrypted; revisit encrypted storage later if needed.
 - 2026-10 — Data model allows several groups per user; the app shows only the first group for now.
+- 2026-10 — Migrations are applied by hand in the Supabase SQL editor (no Supabase CLI yet); `supabase/migrations/` is the record of what's live. If the CLI is adopted later, mark these as applied (`supabase migration repair`) instead of re-running them.
+- 2026-10 — New Supabase projects don't expose tables/functions to the Data API automatically: every migration grants access explicitly (nothing for `anon`).
+- 2026-10 — RLS is tested by impersonating users in the SQL editor (`set_config('request.jwt.claims', …)` + `set local role authenticated`), plus a stranger account that must see nothing.
