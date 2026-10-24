@@ -1,23 +1,29 @@
-import { FAKE_MEMBERS } from "./fake-members";
+import { supabase } from "@/lib/supabase";
+
+import { memberFromRow, type MemberQueryRow } from "./member-from-row";
 import type { Member } from "./types";
 
-// Set to true to see the error screen on your phone. Keep false in commits.
-const SIMULATE_FAILURE = false;
-const FAKE_DELAY_MS = 1000;
+// Everyone in the group with their name and current status, in one request.
+// RLS does the security work: it only returns members of groups the caller is in,
+// and only their profiles/presence (see the groups migration).
+export async function fetchMembers(groupId: number): Promise<Member[]> {
+  const { data, error } = await supabase
+    .from("group_members")
+    // Nested select: follow the foreign keys group_members → profiles → presence.
+    .select("user_id, profiles(display_name, presence(status, building, updated_at))")
+    .eq("group_id", groupId)
+    .overrideTypes<MemberQueryRow[], { merge: false }>();
 
-function wait(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-// Stand-in for the Supabase query in milestone 3. Same signature as the real one
-// will have, so the screen won't need to change when we swap it.
-export async function fetchMembers(): Promise<Member[]> {
-  await wait(FAKE_DELAY_MS);
-
-  if (SIMULATE_FAILURE) {
-    throw new Error("Simulated network failure");
+  if (error || data === null) {
+    throw new Error("Couldn't load your group. Check your connection and try again.");
   }
 
-  // A new array each time, like a real network response would be.
-  return [...FAKE_MEMBERS];
+  const members: Member[] = [];
+  for (const row of data) {
+    const member = memberFromRow(row);
+    if (member !== null) {
+      members.push(member);
+    }
+  }
+  return members;
 }
