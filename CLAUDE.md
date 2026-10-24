@@ -6,16 +6,17 @@ Instructions for Claude when working in this repository. Read this first in ever
 
 A mobile app (iOS + Android) for a private friend group at TUHH (Technische Universität Hamburg). It automatically detects when a friend is on campus using geofencing and shows the group who is at uni right now and approximately which building they're near. Full spec: `docs/SPEC.md`.
 
-## About me and how to work with me
+## How to work in this repo
 
-- I'm a 37th-semester Informatik-Ingenieurwesen student. **This is my first JavaScript/TypeScript and first mobile project.** I know some C/C++/Python concepts.
-- **Explain as you go.** After each change, briefly explain what you did and why, in plain language. When you introduce a new concept (hooks, Promises, async/await, RLS, background tasks…), explain it in 2–4 sentences, ideally comparing it to Java or Python.
-- **Plan before coding.** For anything bigger than a small fix, show me a short plan first and wait for my OK.
+The maintainer's background is C/C++/Python; this project is also how they're learning TypeScript and mobile development.
+
+- **Explain as you go.** After each change, explain what was done and why, in plain language. When introducing a new concept (hooks, Promises, async/await, RLS, background tasks…), explain it in 2–4 sentences, ideally comparing it to Java or Python.
+- **Plan before coding.** For anything bigger than a small fix, present a short plan first and wait for the maintainer's OK.
 - **Small steps.** One feature or fix per task. Each step should leave the app in a working state.
-- **Don't add dependencies without asking.** Tell me what the package does and why we need it.
-- **Prefer simple over clever.** Readable code I can understand beats a shorter or more "advanced" solution.
-- **Sometimes let me write it.** When a task is a good learning exercise, offer to let me write it first and then review my code.
-- If something is unclear or the spec doesn't cover it, ask me instead of guessing.
+- **Don't add dependencies without asking.** Explain what the package does and why it's needed.
+- **Prefer simple over clever.** Readable, easy-to-follow code beats a shorter or more "advanced" solution.
+- **Offer learning exercises.** When a task is a good exercise, offer to let the maintainer write it first and then review the code.
+- If something is unclear or the spec doesn't cover it, ask instead of guessing.
 
 ## Tech stack
 

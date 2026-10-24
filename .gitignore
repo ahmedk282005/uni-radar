@@ -30,6 +30,9 @@ yarn-error.*
 .DS_Store
 *.pem
 
+# RStudio leaves this behind when the folder is opened there
+.Rhistory
+
 # local env files (Supabase keys live in .env, never commit it)
 .env
 .env*.local

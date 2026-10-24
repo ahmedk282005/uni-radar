@@ -1,0 +1,28 @@
+# Runs the same checks as on the laptop (see CLAUDE.md → Testing) on every push and
+# pull request, so a broken type-check or test is visible on GitHub right away.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          # Same major version as development.
+          node-version: 24
+          cache: npm
+
+      # `npm ci` installs exactly what package-lock.json says (no surprise upgrades).
+      - run: npm ci
+
+      - name: Type-check
+        run: npx tsc --noEmit
+
+      - name: Unit tests
+        run: npm test -- --ci
