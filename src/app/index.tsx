@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Button, FlatList, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Alert, Button, FlatList, StyleSheet, Text, View } from "react-native";
 
 import { MemberRow } from "@/components/MemberRow";
+import { checkSupabaseConnection } from "@/features/auth/check-connection";
 import { fetchMembers } from "@/features/presence/fetch-members";
 import { sortMembers } from "@/features/presence/status-display";
 import type { Member } from "@/features/presence/types";
@@ -42,6 +43,11 @@ export default function Index() {
   // Empty dependency list: run once when the screen first appears, not on every render.
   useEffect(() => {
     handleInitialLoad();
+  }, []);
+
+  // Temporary (milestone 3, step 1): pop-up showing whether Supabase is reachable. Removed in step 3.
+  useEffect(() => {
+    checkSupabaseConnection().then((message) => Alert.alert("Supabase", message));
   }, []);
 
   if (isLoading) {
