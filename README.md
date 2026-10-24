@@ -1,5 +1,11 @@
 # Uni Radar
 
+[![CI](https://github.com/ahmedk282005/uni-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/ahmedk282005/uni-radar/actions/workflows/ci.yml)
+![Expo SDK 58](https://img.shields.io/badge/Expo-SDK%2058-000020?logo=expo)
+![TypeScript strict](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-RLS-3FCF8E?logo=supabase&logoColor=white)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 **See at a glance which of your friends are on campus right now — without anyone having to type a thing.**
 
 Uni Radar is a privacy-first mobile app (iOS + Android) for a private friend group at
@@ -127,7 +133,7 @@ feature, background geofencing, needs a native app.)
 
 1. **Install**
    ```bash
-   git clone https://github.com/<your-account>/uni-radar.git
+   git clone https://github.com/ahmedk282005/uni-radar.git
    cd uni-radar
    npm install
    ```
