@@ -8,6 +8,7 @@ import { useMyGroup } from "@/features/groups/MyGroupProvider";
 import { fetchMembers } from "@/features/presence/fetch-members";
 import { MyStatusBar } from "@/features/presence/MyStatusBar";
 import { sortMembers } from "@/features/presence/status-display";
+import { useLivePresence } from "@/features/presence/use-live-presence";
 import type { Member } from "@/features/presence/types";
 
 const LOAD_ERROR = "Couldn't load your group. Check your connection and try again.";
@@ -54,6 +55,11 @@ export default function Index() {
   useEffect(() => {
     handleInitialLoad();
   }, []);
+
+  // Friends' status changes appear without pulling to refresh.
+  useLivePresence(() => {
+    loadMembers();
+  });
 
   if (isLoading) {
     return (
