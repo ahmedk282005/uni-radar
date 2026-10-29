@@ -9,6 +9,9 @@ export type Member = {
   status: PresenceStatus;
   // null when GPS accuracy was too poor to pick a building, or when not at uni.
   building: string | null;
-  // When the status was last refreshed; used for the "Unknown after 12 h" rule.
+  // When the current status began; shown as "At uni since 09:12".
+  since: Date;
+  // When the row was last refreshed (even without a status change); used for the
+  // "Unknown after 12 h" rule.
   updatedAt: Date;
 };

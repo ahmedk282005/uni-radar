@@ -10,7 +10,7 @@ export async function fetchMembers(groupId: number): Promise<Member[]> {
   const { data, error } = await supabase
     .from("group_members")
     // Nested select: follow the foreign keys group_members → profiles → presence.
-    .select("user_id, profiles(display_name, presence(status, building, updated_at))")
+    .select("user_id, profiles(display_name, presence(status, building, status_since, updated_at))")
     .eq("group_id", groupId)
     .overrideTypes<MemberQueryRow[], { merge: false }>();
 

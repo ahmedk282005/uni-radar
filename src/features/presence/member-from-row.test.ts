@@ -24,7 +24,12 @@ describe("memberFromRow", () => {
     user_id: "u1",
     profiles: {
       display_name: "Lena",
-      presence: { status: "at_uni", building: "H", updated_at: "2026-10-24T09:12:00.000000+00:00" },
+      presence: {
+        status: "at_uni",
+        building: "H",
+        status_since: "2026-10-24T09:12:00.000000+00:00",
+        updated_at: "2026-10-24T10:30:00.000000+00:00",
+      },
     },
   };
 
@@ -34,7 +39,8 @@ describe("memberFromRow", () => {
       displayName: "Lena",
       status: "at_uni",
       building: "H",
-      updatedAt: new Date("2026-10-24T09:12:00.000Z"),
+      since: new Date("2026-10-24T09:12:00.000Z"),
+      updatedAt: new Date("2026-10-24T10:30:00.000Z"),
     });
   });
 
@@ -43,7 +49,12 @@ describe("memberFromRow", () => {
       user_id: "u2",
       profiles: {
         display_name: "Felix",
-        presence: { status: "not_at_uni", building: null, updated_at: "2026-10-24T09:12:00+00:00" },
+        presence: {
+          status: "not_at_uni",
+          building: null,
+          status_since: "2026-10-24T09:12:00+00:00",
+          updated_at: "2026-10-24T09:12:00+00:00",
+        },
       },
     };
     expect(memberFromRow(notAtUni)?.building).toBeNull();
