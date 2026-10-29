@@ -11,21 +11,9 @@ export function subscribeToPresenceChanges(onChange: () => void): () => void {
       // UPDATE only: Postgres can't apply RLS to DELETE events, so those would reach
       // every subscriber. Status changes are always UPDATEs of the one presence row.
       { event: "UPDATE", schema: "public", table: "presence" },
-      (payload) => {
-        // TEMPORARY (milestone 4 test): proves which events arrive at all. Remove before
-        // merging. Logs a user id and status only — never anything location-related.
-        if (__DEV__) {
-          console.log("[realtime] presence update:", String(payload.new.user_id), payload.new.status);
-        }
-        onChange();
-      },
+      () => onChange(),
     )
-    .subscribe((status) => {
-      // TEMPORARY (milestone 4 test): should print SUBSCRIBED once the connection is up.
-      if (__DEV__) {
-        console.log("[realtime] channel status:", status);
-      }
-    });
+    .subscribe();
 
   return () => {
     supabase.removeChannel(channel);
