@@ -9,6 +9,7 @@ export type MemberQueryRow = {
     presence: {
       status: PresenceStatus;
       building: string | null;
+      status_since: string;
       updated_at: string;
     } | null;
   } | null;
@@ -36,6 +37,7 @@ export function memberFromRow(row: MemberQueryRow): Member | null {
       displayName: row.profiles.display_name,
       status: "not_at_uni",
       building: null,
+      since: new Date(0),
       updatedAt: new Date(0),
     };
   }
@@ -45,6 +47,7 @@ export function memberFromRow(row: MemberQueryRow): Member | null {
     displayName: row.profiles.display_name,
     status: presence.status,
     building: presence.building,
+    since: parseTimestamp(presence.status_since),
     updatedAt: parseTimestamp(presence.updated_at),
   };
 }

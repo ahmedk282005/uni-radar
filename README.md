@@ -13,8 +13,9 @@ Uni Radar is a privacy-first mobile app (iOS + Android) for a private friend gro
 arrives on or leaves campus via geofencing and shows the group who's at uni and roughly
 which building they're near.
 
-> 🚧 **Work in progress** — milestones 1–3 of 7 are done (accounts, groups, live data
-> model with row-level security). Automatic campus detection is next. See the [roadmap](#roadmap).
+> 🚧 **Work in progress** — milestones 1–4 of 7 are done (accounts, groups, row-level
+> security, a manual "I'm at uni" switch with live updates). Automatic campus detection is next.
+> See the [roadmap](#roadmap).
 
 <p align="center">
   <img src="docs/screenshots/sign-in.jpg" width="250" alt="Sign-in screen">
@@ -40,7 +41,7 @@ nobody answers. Uni Radar replaces that question with a list that keeps itself u
 | 👥 | Private groups with short, unambiguous invite codes (e.g. `K7QX3M`) and native sharing | ✅ |
 | 📋 | "Who's at uni" list: people on campus first, "at uni since 09:12 · near building H" | ✅ |
 | 🔒 | Database-enforced privacy: you only ever see people who share a group with you | ✅ |
-| ⚡ | Manual at-uni toggle with live updates on friends' phones (Supabase Realtime) | ⏳ Milestone 4 |
+| ⚡ | Manual at-uni toggle with live updates on friends' phones (Supabase Realtime) | ✅ |
 | 📍 | Automatic campus detection via background geofencing, even with the app closed | ⏳ Milestone 5 |
 | 🏛️ | Approximate building ("near building H") + one-tap **ghost mode** | ⏳ Milestone 6 |
 
@@ -77,8 +78,10 @@ flowchart LR
     end
     geo -- "status + building<br/>(never coordinates)" --> db
     ui -- "sign in" --> auth
+    ui -- "I'm at uni switch" --> db
     db -- "group members' status" --> ui
-    rt -. "live updates (milestone 4)" .-> ui
+    db -- "changes" --> rt
+    rt -- "live updates<br/>(RLS-checked per friend)" --> ui
 ```
 
 ### Security model
@@ -89,7 +92,7 @@ allowed to.
 | Table | Read | Write |
 |---|---|---|
 | `profiles` | own row + people who share a group | own `display_name` / `avatar_url` only |
-| `presence` | own row + people who share a group | own `status` / `building` only; `updated_at` is stamped by a trigger |
+| `presence` | own row + people who share a group | own `status` / `building` only; `status_since` and `updated_at` are stamped by a trigger |
 | `groups` | groups you're a member of | only via `create_group()` |
 | `group_members` | memberships of your groups | only via `create_group()` / `join_group()` |
 
@@ -176,8 +179,8 @@ additionally checked by hand on a real Android phone before it's merged.
 | 1 | Expo app running on a real phone | ✅ |
 | 2 | "Who's at uni" list with fake data — components, state, loading/error states | ✅ |
 | 3 | Supabase auth, groups, invite codes, row-level security | ✅ |
-| 4 | Manual at-uni toggle with live updates (Realtime) | ⏳ next |
-| 5 | Automatic background geofencing (development builds) | ⏳ |
+| 4 | Manual at-uni toggle with live updates (Realtime) | ✅ |
+| 5 | Automatic background geofencing (development builds) | ⏳ next |
 | 6 | Building estimate + ghost mode | ⏳ |
 | 7 | Beta with friends (TestFlight + Android) | ⏳ |
 

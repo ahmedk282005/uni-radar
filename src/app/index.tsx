@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Button, FlatList, StyleSheet, Text, View } from "react-native";
 
 import { MemberRow } from "@/components/MemberRow";
+import { useSession } from "@/features/auth/SessionProvider";
 import { GroupBar } from "@/features/groups/GroupBar";
 import { useMyGroup } from "@/features/groups/MyGroupProvider";
 import { fetchMembers } from "@/features/presence/fetch-members";
+import { MyStatusBar } from "@/features/presence/MyStatusBar";
 import { sortMembers } from "@/features/presence/status-display";
+import { useLivePresence } from "@/features/presence/use-live-presence";
 import type { Member } from "@/features/presence/types";
 
 const LOAD_ERROR = "Couldn't load your group. Check your connection and try again.";
@@ -14,6 +17,8 @@ export default function Index() {
   // Hooks must run in the same order on every render, so they all sit at the top,
   // before any early `return`.
   const { group } = useMyGroup();
+  const { session } = useSession();
+  const userId = session?.user.id ?? null;
   const [members, setMembers] = useState<Member[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -51,6 +56,11 @@ export default function Index() {
     handleInitialLoad();
   }, []);
 
+  // Friends' status changes appear without pulling to refresh.
+  useLivePresence(() => {
+    loadMembers();
+  });
+
   if (isLoading) {
     return (
       <View style={styles.centered}>
@@ -72,6 +82,8 @@ export default function Index() {
   // Recomputed on every render, so a refresh also re-applies the 12 h "Unknown" rule.
   const now = new Date();
   const sortedMembers = sortMembers(members, now);
+  // The user's own row: its status drives the "I'm at uni" switch.
+  const me = members.find((member) => member.id === userId);
 
   return (
     <FlatList
@@ -85,6 +97,9 @@ export default function Index() {
         <>
           {/* Always set here: the root layout only shows this screen to group members. */}
           {group !== null && <GroupBar group={group} />}
+          {userId !== null && me !== undefined && (
+            <MyStatusBar userId={userId} status={me.status} onChanged={loadMembers} />
+          )}
           {error !== null && <Text style={styles.banner}>{error}</Text>}
         </>
       }

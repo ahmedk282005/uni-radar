@@ -21,6 +21,7 @@ function makeMember(overrides: Partial<Member>): Member {
     displayName: "Lena",
     status: "at_uni",
     building: null,
+    since: hoursBefore(1),
     updatedAt: hoursBefore(1),
     ...overrides,
   };
@@ -62,13 +63,24 @@ describe("getStatusLabel", () => {
   const arrived = new Date(2026, 9, 23, 9, 12);
 
   test("at uni with a building", () => {
-    const member = makeMember({ building: "H", updatedAt: arrived });
+    const member = makeMember({ building: "H", since: arrived, updatedAt: arrived });
     expect(getStatusLabel(member, NOW)).toBe("At uni since 09:12 · near building H");
   });
 
   test("at uni without a building (poor GPS accuracy)", () => {
-    const member = makeMember({ building: null, updatedAt: arrived });
+    const member = makeMember({ building: null, since: arrived, updatedAt: arrived });
     expect(getStatusLabel(member, NOW)).toBe("At uni since 09:12");
+  });
+
+  test("shows when the status began, not when the row was last refreshed", () => {
+    const member = makeMember({ since: arrived, updatedAt: hoursBefore(0.5) });
+    expect(getStatusLabel(member, NOW)).toBe("At uni since 09:12");
+  });
+
+  test("a long day at uni with regular refreshes is not 'Unknown'", () => {
+    // Arrived 13 h ago, but the phone refreshed 1 h ago: the 12 h rule looks at updatedAt.
+    const member = makeMember({ since: hoursBefore(13), updatedAt: hoursBefore(1) });
+    expect(getDisplayStatus(member, NOW)).toBe("at_uni");
   });
 
   test("not at uni", () => {

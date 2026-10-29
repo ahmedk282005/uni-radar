@@ -34,7 +34,8 @@ export function formatTime(date: Date): string {
 export function getStatusLabel(member: Member, now: Date): string {
   switch (getDisplayStatus(member, now)) {
     case "at_uni": {
-      const since = `At uni since ${formatTime(member.updatedAt)}`;
+      // `since`, not `updatedAt`: a refresh without a status change mustn't move this time.
+      const since = `At uni since ${formatTime(member.since)}`;
       return member.building === null ? since : `${since} · near building ${member.building}`;
     }
     case "not_at_uni":
