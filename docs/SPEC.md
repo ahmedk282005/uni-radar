@@ -94,7 +94,7 @@ A mobile app (iOS + Android) that **automatically** detects when a friend arrive
 | `profiles` | `id` (= auth user id), `display_name`, `avatar_url`, `created_at` | One per user |
 | `groups` | `id`, `name`, `invite_code` (unique), `created_by`, `created_at` | |
 | `group_members` | `group_id`, `user_id`, `joined_at` | Primary key (group_id, user_id) |
-| `presence` | `user_id` (PK), `status` (`at_uni` \| `not_at_uni` \| `hidden`), `building` (nullable), `updated_at` | Current state only, no history |
+| `presence` | `user_id` (PK), `status` (`at_uni` \| `not_at_uni` \| `hidden`), `building` (nullable), `status_since`, `updated_at` | Current state only, no history. `status_since` = when the status began ("at uni since"), `updated_at` = last refresh (12 h rule); both set by a trigger |
 
 **Row-level security (required on every table):**
 - A user can read `presence` rows only of users who share a group with them
@@ -144,7 +144,6 @@ A mobile app (iOS + Android) that **automatically** detects when a friend arrive
 - Exact geofence centres and radii for TUHH (and do outlying buildings matter?)
 - Should "arrived at uni" trigger a push notification to friends? (v2 — could be annoying; maybe per-friend opt-in)
 - Should someone be able to be in several groups? (Data model already allows it)
-- "At uni since 09:12" currently uses `updated_at`. If a later update (e.g. new building) refreshes `updated_at`, the "since" time jumps forward. Do we need a separate `since` / `arrived_at` column in `presence`? (Decide by milestone 4–6)
 - App name
 
 ## 14. Ideas for v2

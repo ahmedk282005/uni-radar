@@ -123,3 +123,6 @@ Add a line whenever we decide something important.
 - 2026-10 — Migrations are applied by hand in the Supabase SQL editor (no Supabase CLI yet); `supabase/migrations/` is the record of what's live. If the CLI is adopted later, mark these as applied (`supabase migration repair`) instead of re-running them.
 - 2026-10 — New Supabase projects don't expose tables/functions to the Data API automatically: every migration grants access explicitly (nothing for `anon`).
 - 2026-10 — RLS is tested by impersonating users in the SQL editor (`set_config('request.jwt.claims', …)` + `set local role authenticated`), plus a stranger account that must see nothing.
+- 2026-10 — `presence.status_since` (when the status began → "at uni since") is separate from `updated_at` (last refresh → 12 h rule); a trigger stamps both. Resolves the SPEC open question.
+- 2026-10 — Live updates use Realtime Postgres Changes on `presence`, UPDATE events only (Postgres can't apply RLS to DELETEs). The list reloads on each event and when the app returns to the foreground.
+- 2026-10 — `setMyStatus` never touches a `hidden` row, so the toggle and (later) the background geofence can't undo ghost mode; leaving ghost mode gets its own function in milestone 6.
